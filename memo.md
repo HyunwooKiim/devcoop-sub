@@ -36,3 +36,6 @@ ID가 필요없고, 값이 본체인 객체입니다.
   - "트랜잭션적으로는 끊고, 논리적으로만 연결"하는 구조가 됩니다.
 - 하나의 트랜잭션에서 수정하는 Aggregate는 하나만 되도록 설계합니다.
   - 한 트랜잭션에서 여러 Aggregate를 바꾸고 싶어지면, Aggregate 설계가 잘못됐거나, 사가 패턴, 도메인 이벤트 같은 느슨한 협조 메커니즘이 필요한 상황일 가능성이 큽니다.
+
+## 사진
+<img width="776" height="542" alt="image" src="https://github.com/user-attachments/assets/851492b2-9b89-4de6-b019-18aa38740d93" />
