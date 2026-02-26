@@ -4,8 +4,10 @@
 
 어떠한 도메인 모델을 이해하기 위해, 상위 수준 도메인 모델과 하위 수준 도메인 모델을 이해해보면
 
+![image](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2Fb5hRN9%2FbtrMmg33osK%2FAAAAAAAAAAAAAAAAAAAAAFarOTR1L3MfHhgoJAPKmCQVy_yrbT1FfLoM1nPwaXQK%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1772290799%26allow_ip%3D%26allow_referer%3D%26signature%3Dw5LA30Hpj6e6z1WU733rutcw5UA%253D)
 상위 수준 도메인의 모델 경우 비교적 큰 개념 간의 관계를 나타낸다.
 
+![image](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FehYDsO%2FbtrMlWqXtzU%2FAAAAAAAAAAAAAAAAAAAAAJxJElZx91XvNygyWlNxjqZRJnODVw1fLwNb81k7nBKC%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1772290799%26allow_ip%3D%26allow_referer%3D%26signature%3Dn1nPzywZcJFAUZuaVGWix3DWBtc%253D)
 반면 하위 수준 도메인 모델의 경우 주로 객체 단위의 관계를 표현한다.
 
 문제는 상위 수준 도메인 모델을 기반으로 하위 수준 도메인 모델을 도출해 냈을때,
@@ -61,7 +63,7 @@ Post (루트)
 
 왜 Post가 루트이냐면,
 
-- Comment는 혼자 존재할 수 없다. → 반드시 특정 Post에 속해야한다.
+- Comment는 혼자 존재할 수 없다. -> 반드시 특정 Post에 속해야한다.
 - 게시글의 규칙은 Post가 관리해야한다.
 
   (게시글이 삭제되면 댓글도 삭제, 작성자만 삭제 가능)
