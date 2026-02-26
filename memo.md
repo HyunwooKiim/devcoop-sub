@@ -1,4 +1,7 @@
 # 애그리거트
+<img width="903" height="584" alt="image" src="https://github.com/user-attachments/assets/c3cb618d-30f0-4178-921f-f7417c0d347d" />
+
+
 
 **애그리거트** : 도메인 영역을 구성하는 요소 중 하나로 관련된 도메인의 집합을 뜻함.
 
@@ -134,3 +137,7 @@ Id만 저장 하는듯이 느슨하게 연결해야한다.
 그렇기에 DDD는 한 트랜잭션에는 한 애그리거트만 다루는 것을 권장한다.
 
 ---
+
+
+![Uploading 제목 없는 다이어그램.drawio.svg…]()
+
