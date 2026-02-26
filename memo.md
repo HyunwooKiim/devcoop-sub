@@ -38,5 +38,4 @@ ID가 필요없고, 값이 본체인 객체입니다.
   - 한 트랜잭션에서 여러 Aggregate를 바꾸고 싶어지면, Aggregate 설계가 잘못됐거나, 사가 패턴, 도메인 이벤트 같은 느슨한 협조 메커니즘이 필요한 상황일 가능성이 큽니다.
 
 ## 사진
-<img width="789" height="579" alt="image" src="https://github.com/user-attachments/assets/acd69863-9d7b-49ee-8d7b-c5d6c0d8a926" />
-
+<img width="673" height="518" alt="image" src="https://github.com/user-attachments/assets/50bc3419-3a2d-4da3-8571-95aaf6cbbfd7" />
