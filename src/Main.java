@@ -1,12 +1,12 @@
-import application.PaymentService;
-import application.SubscriptionService;
-import application.UserService;
-import domain.audit.AuditLog;
-import domain.common.valueobject.Money;
-import domain.plan.Plan;
-import domain.plan.PlanCatalog;
-import domain.plan.PlanName;
-import domain.user.User;
+import core.usecase.port.payment.PaymentUseCase;
+import core.usecase.port.subscription.SubscriptionUseCase;
+import core.usecase.port.user.UserUseCase;
+import core.domain.audit.AuditLog;
+import core.domain.common.valueobject.money.Money;
+import core.domain.plan.Plan;
+import core.domain.plan.PlanCatalog;
+import core.domain.plan.PlanName;
+import core.domain.user.User;
 import infrastructure.config.AppConfig;
 
 import java.util.List;
@@ -16,9 +16,11 @@ import java.util.Scanner;
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final PlanCatalog planCatalog = new PlanCatalog();
-    private static final UserService userService = AppConfig.getUserService();
-    private static final SubscriptionService subscriptionService = AppConfig.getSubscriptionService();
-    private static final PaymentService paymentService = AppConfig.getPaymentService();
+    private static final UserUseCase userService = AppConfig.getUserUseCase();
+    private static final SubscriptionUseCase subscriptionService = AppConfig.getSubscriptionUseCase();
+    private static final PaymentUseCase paymentService = AppConfig.getPaymentUseCase();
+
+    private static String currentUserSessionId = null;
 
     public static void main(String[] args) {
         System.out.println("========================================");
@@ -26,7 +28,7 @@ public class Main {
         System.out.println("========================================");
 
         while (true) {
-            if (userService.getCurrentUserId().isEmpty()) {
+            if (currentUserSessionId == null) {
                 showGuestMenu();
             } else {
                 showUserMenu();
@@ -53,8 +55,8 @@ public class Main {
     }
 
     private static void showUserMenu() {
-        String userId = userService.getCurrentUserId().get();
-        Money balance = userService.getBalance();
+        String userId = currentUserSessionId;
+        Money balance = userService.getBalance(userId);
         System.out.println("\n[회원 메뉴 - ID: " + userId + " | 잔액: " + balance + "]");
         System.out.println("1. 구독 시작하기");
         System.out.println("2. 결제 시뮬레이션 (잔액으로 차감)");
@@ -69,16 +71,21 @@ public class Main {
         switch (choice) {
             case "1" -> subscribe(userId);
             case "2" -> simulatePayment(userId);
-            case "3" -> depositFunds();
-            case "4" -> withdrawFunds();
+            case "3" -> depositFunds(userId);
+            case "4" -> withdrawFunds(userId);
             case "5" -> showAuditLogs(userId);
-            case "6" -> userService.logout();
+            case "6" -> logout();
             case "7" -> {
-                userService.withdraw();
+                userService.withdraw(userId);
+                logout();
                 System.out.println("탈퇴 처리되었습니다.");
             }
             default -> System.out.println("잘못된 선택입니다.");
         }
+    }
+
+    private static void logout() {
+        currentUserSessionId = null;
     }
 
     private static void signUp() {
@@ -104,7 +111,8 @@ public class Main {
         String password = scanner.nextLine();
 
         try {
-            userService.login(name, password);
+            User user = userService.login(name, password);
+            currentUserSessionId = user.getId();
             System.out.println("로그인 성공!");
         } catch (Exception e) {
             System.out.println("오류: " + e.getMessage());
@@ -141,11 +149,11 @@ public class Main {
         }
     }
 
-    private static void depositFunds() {
+    private static void depositFunds(String userId) {
         System.out.print("입금할 금액 입력: ");
         try {
             Long amount = Long.parseLong(scanner.nextLine());
-            userService.deposit(new Money(amount));
+            userService.deposit(userId, new Money(amount));
             System.out.println("입금 완료!");
         } catch (NumberFormatException e) {
             System.out.println("숫자만 입력 가능합니다.");
@@ -154,11 +162,11 @@ public class Main {
         }
     }
 
-    private static void withdrawFunds() {
+    private static void withdrawFunds(String userId) {
         System.out.print("출금할 금액 입력: ");
         try {
             Long amount = Long.parseLong(scanner.nextLine());
-            userService.withdrawMoney(new Money(amount));
+            userService.withdrawMoney(userId, new Money(amount));
             System.out.println("출금 완료!");
         } catch (NumberFormatException e) {
             System.out.println("숫자만 입력 가능합니다.");
@@ -169,7 +177,7 @@ public class Main {
 
     private static void showAuditLogs(String userId) {
         System.out.println("\n--- 활동 로그 (Audit Log) ---");
-        List<AuditLog> logs = userService.getMyAuditLogs();
+        List<AuditLog> logs = userService.getAuditLogs(userId);
         if (logs.isEmpty()) {
             System.out.println("기록된 활동 로그가 없습니다.");
         } else {
