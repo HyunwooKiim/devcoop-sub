@@ -1,9 +1,9 @@
 package main.application.subscription.external;
 
-import main.domain.subscription.internal.Subscription;
+import main.domain.subscription.Subscription;
 
 public interface SubscriptionRepository {
-    void save(Subscription subscription);
-    Subscription findById(Long id);
-    void update(Subscription subscription);
+    Subscription save(Subscription subscription);
+    Subscription update(Subscription subscription);
+    Subscription findByUserId(Long userId);
 }
