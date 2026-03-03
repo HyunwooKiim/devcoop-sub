@@ -1,4 +1,4 @@
-package saas.domain;
+package saas.business.model;
 
 import java.util.Objects;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package saas.domain;
+package saas.business.model;
 
 import java.util.Collections;
 import java.util.HashMap;

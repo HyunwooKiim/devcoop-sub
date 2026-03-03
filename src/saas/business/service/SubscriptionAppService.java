@@ -1,14 +1,14 @@
-package saas.service;
+package saas.business.service;
 
-import saas.domain.Payment;
-import saas.domain.Plan;
-import saas.domain.PlanType;
-import saas.domain.Subscription;
-import saas.domain.User;
-import saas.repository.PaymentRepository;
-import saas.repository.PlanRepository;
-import saas.repository.SubscriptionRepository;
-import saas.repository.UserRepository;
+import saas.business.model.Payment;
+import saas.business.model.Plan;
+import saas.business.model.PlanType;
+import saas.business.model.Subscription;
+import saas.business.model.User;
+import saas.business.repository.PaymentRepository;
+import saas.business.repository.PlanRepository;
+import saas.business.repository.SubscriptionRepository;
+import saas.business.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

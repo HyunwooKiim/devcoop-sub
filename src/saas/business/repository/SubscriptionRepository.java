@@ -1,6 +1,6 @@
-package saas.repository;
+package saas.business.repository;
 
-import saas.domain.Subscription;
+import saas.business.model.Subscription;
 
 import java.util.List;
 import java.util.Optional;

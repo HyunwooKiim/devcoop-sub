@@ -1,6 +1,6 @@
-package saas.repository;
+package saas.business.repository;
 
-import saas.domain.Payment;
+import saas.business.model.Payment;
 
 import java.util.List;
 

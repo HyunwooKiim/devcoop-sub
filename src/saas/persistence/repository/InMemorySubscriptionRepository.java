@@ -1,37 +1,40 @@
-package saas.repository.memory;
+package saas.persistence.repository;
 
-import saas.domain.Subscription;
-import saas.domain.SubscriptionStatus;
-import saas.repository.SubscriptionRepository;
+import saas.business.model.Subscription;
+import saas.business.model.SubscriptionStatus;
+import saas.business.repository.SubscriptionRepository;
+import saas.database.InMemoryDatabase;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class InMemorySubscriptionRepository implements SubscriptionRepository {
-    private final Map<String, Subscription> byId = new HashMap<>();
+    private final InMemoryDatabase database;
+
+    public InMemorySubscriptionRepository(InMemoryDatabase database) {
+        this.database = database;
+    }
 
     @Override
     public void save(Subscription subscription) {
-        byId.put(subscription.getSubscriptionId(), subscription);
+        database.subscriptionTable().put(subscription.getSubscriptionId(), subscription);
     }
 
     @Override
     public Optional<Subscription> findById(String subscriptionId) {
-        return Optional.ofNullable(byId.get(subscriptionId));
+        return Optional.ofNullable(database.subscriptionTable().get(subscriptionId));
     }
 
     @Override
     public List<Subscription> findByUserId(String userId) {
-        return byId.values().stream()
+        return database.subscriptionTable().values().stream()
                 .filter(s -> s.getUserId().equals(userId))
                 .toList();
     }
 
     @Override
     public boolean hasActivePaidSubscription(String userId) {
-        return byId.values().stream()
+        return database.subscriptionTable().values().stream()
                 .anyMatch(s -> s.getUserId().equals(userId)
                         && s.getPlanType().isPaid()
                         && s.getStatus() == SubscriptionStatus.ACTIVE);

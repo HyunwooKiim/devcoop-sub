@@ -1,4 +1,4 @@
-package saas.domain;
+package saas.business.model;
 
 public enum UserStatus {
     ACTIVE,

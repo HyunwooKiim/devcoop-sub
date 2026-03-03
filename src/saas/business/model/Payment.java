@@ -1,4 +1,4 @@
-package saas.domain;
+package saas.business.model;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

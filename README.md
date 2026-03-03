@@ -1,38 +1,40 @@
 # SaaS 구독/결제 과제 (Plain Java)
 
-다이어그램 기준으로 아래 4개 애그리거트를 사용했습니다.
+요청하신 4계층 구조로 분리했습니다.
 
-- `User (Root)`: `userId`, `email`, `status`, `register()`
-- `Subscription (Root)`: `subscriptionId`, `userId`, `planType`, `status`, `startedAt`, `lastPaidAt`, `priceSnapshot`, `periodDaysSnapshot`
-- `Payment (Root)`: `paymentId`, `subscriptionId`, `type`, `amount`, `status`, `occurredAt`
-- `Plan (Root)`: `planType`, `currentPrice`, `billingPeriodDays`, `limits`
+## 1. Presentation Layer
+- 위치: `src/saas/presentation`
+- 역할: 사용자 입력/출력 (콘솔 메뉴)
+- 파일: `Main.java`
 
-## Repository 구조
+## 2. Business Layer
+- 위치: `src/saas/business`
+- 역할: 도메인 모델 + 비즈니스 로직
+- 구성:
+  - `model`: `User`, `Subscription`, `Payment`, `Plan` 등
+  - `repository`: Repository interface
+  - `service`: `SubscriptionAppService`
 
-인터페이스 + 구현체 분리 형태입니다.
+## 3. Persistence Layer
+- 위치: `src/saas/persistence`
+- 역할: Repository interface 구현체
+- 구성: `InMemoryUserRepository`, `InMemoryPlanRepository`, `InMemorySubscriptionRepository`, `InMemoryPaymentRepository`
 
-- Interface: `saas.repository.*`
-- In-memory 구현: `saas.repository.memory.*`
+## 4. Database Layer
+- 위치: `src/saas/database`
+- 역할: 실제 저장소 객체 제공
+- 파일: `InMemoryDatabase.java`
 
-예)
-- `UserRepository` <- `InMemoryUserRepository`
-- `SubscriptionRepository` <- `InMemorySubscriptionRepository`
-
-## 반영한 규칙
-
-- 유저는 동시에 하나의 유료 플랜만 `ACTIVE`
-- 결제 실패 시 구독 상태 `PAST_DUE`
-- 구독 시점의 가격/기간은 스냅샷으로 저장
+Persistence Layer의 Repository 구현체는 `InMemoryDatabase`를 주입받아 데이터를 저장/조회합니다.
 
 ## 실행
 
 ```bash
 javac $(find src -name '*.java')
-java -cp src saas.Main
+java -classpath ./src saas.presentation.Main
 ```
 
-## 터미널 숫자 메뉴
-
+## 숫자 메뉴
 - `0` 종료
 - `1` 유저 등록
 - `2` 유저 목록

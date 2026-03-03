@@ -1,19 +1,20 @@
-package saas;
+package saas.presentation;
 
-import saas.domain.Payment;
-import saas.domain.Plan;
-import saas.domain.PlanType;
-import saas.domain.Subscription;
-import saas.domain.User;
-import saas.repository.PaymentRepository;
-import saas.repository.PlanRepository;
-import saas.repository.SubscriptionRepository;
-import saas.repository.UserRepository;
-import saas.repository.memory.InMemoryPaymentRepository;
-import saas.repository.memory.InMemoryPlanRepository;
-import saas.repository.memory.InMemorySubscriptionRepository;
-import saas.repository.memory.InMemoryUserRepository;
-import saas.service.SubscriptionAppService;
+import saas.business.model.Payment;
+import saas.business.model.Plan;
+import saas.business.model.PlanType;
+import saas.business.model.Subscription;
+import saas.business.model.User;
+import saas.business.repository.PaymentRepository;
+import saas.business.repository.PlanRepository;
+import saas.business.repository.SubscriptionRepository;
+import saas.business.repository.UserRepository;
+import saas.business.service.SubscriptionAppService;
+import saas.database.InMemoryDatabase;
+import saas.persistence.repository.InMemoryPaymentRepository;
+import saas.persistence.repository.InMemoryPlanRepository;
+import saas.persistence.repository.InMemorySubscriptionRepository;
+import saas.persistence.repository.InMemoryUserRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        UserRepository userRepository = new InMemoryUserRepository();
-        PlanRepository planRepository = new InMemoryPlanRepository();
-        SubscriptionRepository subscriptionRepository = new InMemorySubscriptionRepository();
-        PaymentRepository paymentRepository = new InMemoryPaymentRepository();
+        InMemoryDatabase database = new InMemoryDatabase();
+
+        UserRepository userRepository = new InMemoryUserRepository(database);
+        PlanRepository planRepository = new InMemoryPlanRepository(database);
+        SubscriptionRepository subscriptionRepository = new InMemorySubscriptionRepository(database);
+        PaymentRepository paymentRepository = new InMemoryPaymentRepository(database);
 
         seedPlans(planRepository);
 
